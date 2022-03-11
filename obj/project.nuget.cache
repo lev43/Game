@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "eG8st4WXtjdbOTpY3vfClwfcuTKrJplp/ZziqIEIOuMdxFDfyaasKwohCRe5Xc3d8QX8OqV2LK2KgWIGhKg7kw==",
+  "success": true,
+  "projectFilePath": "/home/lev43/Документы/code/C#/Game/Game.csproj",
+  "expectedPackageFiles": [
+    "/home/lev43/.nuget/packages/csfml/2.5.0/csfml.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk/4.7.1/opentk.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.compute/4.7.1/opentk.compute.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.core/4.7.1/opentk.core.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.graphics/4.7.1/opentk.graphics.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.input/4.7.1/opentk.input.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.mathematics/4.7.1/opentk.mathematics.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.openal/4.7.1/opentk.openal.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.redist.glfw/3.3.0-pre20200830200122/opentk.redist.glfw.3.3.0-pre20200830200122.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.windowing.common/4.7.1/opentk.windowing.common.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.windowing.desktop/4.7.1/opentk.windowing.desktop.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/opentk.windowing.graphicslibraryframework/4.7.1/opentk.windowing.graphicslibraryframework.4.7.1.nupkg.sha512",
+    "/home/lev43/.nuget/packages/sfml.audio/2.5.0/sfml.audio.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/sfml.graphics/2.5.0/sfml.graphics.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/sfml.net/2.5.0/sfml.net.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/sfml.system/2.5.0/sfml.system.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/sfml.window/2.5.0/sfml.window.2.5.0.nupkg.sha512",
+    "/home/lev43/.nuget/packages/system.runtime.compilerservices.unsafe/5.0.0/system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
