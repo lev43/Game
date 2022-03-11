@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -53,22 +53,27 @@ public class Engine
         MainWindow.Closed += (sender, e) => {
             MainWindow.Close();
         };
+        try {
+            var shader = new RayMarchingShader(800, 600);
+            
+            MainWindow.Resized += (sender, e) => {
+                shader.Resize(e.Width, e.Height);
+            };
 
-        var shader = new RayMarchingShader(800, 600);
+            Clock clock = new Clock();
 
-        MainWindow.Resized += (sender, e) => {
-            shader.Resize(e.Width, e.Height);
-        };
-
-        Clock clock = new Clock();
-
-        while(MainWindow.IsOpen)
-        {
-            MainWindow.DispatchEvents();
-            MainWindow.Clear();
-            shader.Update(clock.ElapsedTime.AsSeconds());
-            MainWindow.Draw(shader);
-            MainWindow.Display();
+            while(MainWindow.IsOpen)
+            {
+                MainWindow.DispatchEvents();
+                MainWindow.Clear();
+                shader.Update(clock.ElapsedTime.AsSeconds());
+                MainWindow.Draw(shader);
+                MainWindow.Display();
+            }
+        } catch (SFML.LoadingFailedException err) {
+            Console.WriteLine("Error load the shader!");
+            Console.WriteLine(err.Message);
+            MainWindow.Close();
         }
     }
 }
