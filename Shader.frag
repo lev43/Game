@@ -6,30 +6,19 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-vec3 cam_position;
-vec2 direction;
-vec3 position;
-float len = 0.0;
+vec3 color1 = vec3(1.0, 0.0, 0.0);
+vec3 color2 = vec3(0.0, 1.0, 1.0);
 
-float len_schere(vec3 a, vec3 b, float radius) {
-	vec3 p = a-b;
-	return sqrt(p.x+p.y+p.z) - radius;
+float len(vec2 a, vec2 b) {
+	vec2 c = pow(a-b, vec2(2.0));
+	return sqrt(c.x+c.y);
 }
 
-vec4 cast_ray(vec3 position, vec2 direction) {
-	while (len > 1000.0) {
-		len = len_schere(position, vec3(0.0, 0.0, 10.0), 10.0);
-		if(len < 1) {
-			return vec4(1.0, 1.0, 1.0, 1.0);
-		}
-		position.x += len * sin(direction.x) * cos(direction.y);
-		position.y += len * sin(direction.x) * sin(direction.y);
-		position.z += len * cos(direction.x);
-	}
-	return vec4(0.0, 0.0, 0.0, 0.0);
+float len(vec3 a, vec3 b) {
+	vec3 c = pow(a-b, vec3(2.0));
+	return sqrt(c.x+c.y+c.z);
 }
 
 void main() {
-	float color = (ceil(gl_FragCoord.xy/u_resolution/1000)).x;
-	gl_FragColor = vec4(color, color, color, 1.0);
+	gl_FragColor = vec4(step(len(gl_FragCoord.xy, u_resolution.xy/2.0), 10000.0) * mix(color1, color2, abs(smoothstep(0.8, 1.0, cos(u_time*1.5)))) / len(gl_FragCoord.xy, u_resolution.xy/2.0) * 20.0, 1.0);
 }
