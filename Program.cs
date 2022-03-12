@@ -30,7 +30,11 @@ public class Engine
             shader.SetUniform("u_resolution", new Vec2(width, height));
             sprite.Scale = new Vector2f(width, height);
         }
-        public void Update(float time) 
+        public void MouseMove(Vec2 mouse)
+        {
+            shader.SetUniform("u_mouse", mouse);
+        }
+        public void UpdateTime(float time) 
         {
             shader.SetUniform("u_time", time);
         }
@@ -54,10 +58,13 @@ public class Engine
             MainWindow.Close();
         };
 
-        var shader = new RayMarchingShader(800, 600);
+        RayMarchingShader shader = new RayMarchingShader(800, 600);
 
         MainWindow.Resized += (sender, e) => {
             shader.Resize(e.Width, e.Height);
+        };
+        MainWindow.MouseMoved += (sender, e) => {
+            shader.MouseMove(new Vec2(e.X, e.Y));
         };
 
         Clock clock = new Clock();
@@ -66,9 +73,14 @@ public class Engine
         {
             MainWindow.DispatchEvents();
             MainWindow.Clear();
-            shader.Update(clock.ElapsedTime.AsSeconds());
-            MainWindow.Draw(shader);
-            MainWindow.Display();
+            try {
+                shader = new RayMarchingShader(800, 600);
+                shader.UpdateTime(clock.ElapsedTime.AsSeconds());
+                MainWindow.Draw(shader);
+                MainWindow.Display();
+            } catch(SFML.LoadingFailedException err) {
+                Console.Error.WriteLine(err);
+            }
         }
     }
 }
