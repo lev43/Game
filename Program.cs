@@ -20,7 +20,7 @@ public class Engine
     {
         public RayMarchingShader(uint width, uint height)
         {
-            shader = new Shader("Shader.vert", null, "Shader.frag");
+            shader = new Shader(null, null, "Shader.frag");
             shader.SetUniform("u_time", 0);
             shader.SetUniform("u_resolution", new Vec2(width, height));
             sprite = new Sprite(new Texture(width, height));
@@ -51,36 +51,35 @@ public class Engine
     }
     public static void Main(string[] args)
     {
-        var MainWindow = new RenderWindow(new VideoMode(800, 600), "The window", Styles.Close);
+        var MainWindow = new RenderWindow(new VideoMode(800, 800), "The window", Styles.Close);
         MainWindow.SetVerticalSyncEnabled(true);
 
         MainWindow.Closed += (sender, e) => {
             MainWindow.Close();
         };
 
-        RayMarchingShader shader = new RayMarchingShader(800, 600);
+        try {
+            RayMarchingShader shader = new RayMarchingShader(800, 800);
 
-        MainWindow.Resized += (sender, e) => {
-            shader.Resize(e.Width, e.Height);
-        };
-        MainWindow.MouseMoved += (sender, e) => {
-            shader.MouseMove(new Vec2(e.X, e.Y));
-        };
+            MainWindow.Resized += (sender, e) => {
+                shader.Resize(e.Width, e.Height);
+            };
+            MainWindow.MouseMoved += (sender, e) => {
+                shader.MouseMove(new Vec2(e.X, e.Y));
+            };
 
-        Clock clock = new Clock();
+            Clock clock = new Clock();
 
-        while(MainWindow.IsOpen)
-        {
-            MainWindow.DispatchEvents();
-            MainWindow.Clear();
-            try {
-                shader = new RayMarchingShader(800, 600);
-                shader.UpdateTime(clock.ElapsedTime.AsSeconds());
-                MainWindow.Draw(shader);
-                MainWindow.Display();
-            } catch(SFML.LoadingFailedException err) {
-                Console.Error.WriteLine(err);
+            while(MainWindow.IsOpen)
+            {
+                MainWindow.DispatchEvents();
+                MainWindow.Clear();
+                    shader.UpdateTime(clock.ElapsedTime.AsSeconds());
+                    MainWindow.Draw(shader);
+                    MainWindow.Display();
             }
+        } catch(SFML.LoadingFailedException err) {
+            Console.Error.WriteLine(err);
         }
     }
 }
