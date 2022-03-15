@@ -9,8 +9,13 @@ uniform float u_time;
 vec3 center = vec3(u_resolution/2.0, 0.0);
 vec3 light = vec3(0.0, 10000000.0, 0.0);
 
-vec4 schere1 = vec4(sin(u_time*2.0)*150.0+u_resolution.x/2.0, cos(u_time*2.0)*150.0+u_resolution.x/2.0, 10.0, 100.0);
-vec4 schere2 = vec4(u_resolution/2.0, 100.0, 100.0);
+vec4 schere1 = vec4(sin(u_time*2.0)*200.0+u_resolution.x/2.0, cos(u_time*2.0)*200.0+u_resolution.x/2.0, 10.0, 25.0);
+vec4 schere2 = vec4(
+	sin(u_time*-4.0)*30.0 + sin(u_time*2.0)*200.0 + u_resolution.x/2.0,
+	cos(u_time*-4.0)*30.0 + cos(u_time*2.0)*200.0 + u_resolution.x/2.0,
+	10.0, 21.0
+);
+vec4 schere3 = vec4(u_resolution/2.0, 10.0, 70.0);
 
 float get_length_to_schere(vec3 p, vec4 s) {
 	return length(p - s.xyz) - s.w;
@@ -18,7 +23,7 @@ float get_length_to_schere(vec3 p, vec4 s) {
 
 
 float get_dist(vec3 position) {
-	return min(get_length_to_schere(position, schere1), get_length_to_schere(position, schere2));
+	return min(get_length_to_schere(position, schere3), min(get_length_to_schere(position, schere1), get_length_to_schere(position, schere2)));
 }
 
 vec3 getNormal(vec3 p)
@@ -38,10 +43,10 @@ float get_light(vec3 p, vec3 light_pos) {
 
 vec3 raymarching(vec3 ray_origin, vec2 direction) {
 	vec3 position = ray_origin;
-	for(float i = 0.0; i < 1000.0; i++) {
+	for(float i = 0.0; i < 100.0; i++) {
 		float len = get_dist(position);
 		if (len < 0.1) return vec3(get_light(position, light));
-    if (len > 1000.0) return vec3(0.0);
+    if (len > 100.0) return vec3(0.0);
 		position += vec3(
 			len * sin(direction.x) * cos(direction.y),
 			len * sin(direction.x) * sin(direction.y),
@@ -60,9 +65,9 @@ float scal(vec2 a, vec2 b) {
 }
 
 void main() {
-	vec3 c = vec3(gl_FragCoord.xy-u_resolution, 0.5);
+	vec3 c = vec3(gl_FragCoord.x - u_resolution.x/2.0, gl_FragCoord.y - u_resolution.y/2.0, -10.0);
 	vec2 direction = vec2(
-		atan(sqrt(pow(c.x, 2.0) + pow(c.y, 2.0)) / c.z),
+		acos(sqrt(pow(c.x, 2.0) + pow(c.y, 2.0)) / c.z) - 90,
 		atan(c.y / c.x)
 	);
 	// vec2 direction = vec2(
