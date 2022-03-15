@@ -73,10 +73,10 @@ public class Engine
             while(MainWindow.IsOpen)
             {
                 MainWindow.DispatchEvents();
-                MainWindow.Clear();
-                    shader.UpdateTime(clock.ElapsedTime.AsSeconds());
-                    MainWindow.Draw(shader);
-                    MainWindow.Display();
+                // MainWindow.Clear();
+                shader.UpdateTime(clock.ElapsedTime.AsSeconds());
+                MainWindow.Draw(shader);
+                MainWindow.Display();
             }
         } catch(SFML.LoadingFailedException err) {
             Console.Error.WriteLine(err);

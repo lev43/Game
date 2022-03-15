@@ -51,9 +51,21 @@ vec3 raymarching(vec3 ray_origin, vec2 direction) {
 	return vec3(0.0);
 }
 
+float scal(float a, float b) {
+	return (a * b) / (sqrt(pow(a, 2.0)) * sqrt(pow(b, 2.0)));
+}
+
+float scal(vec2 a, vec2 b) {
+	return (a.x * b.x + a.y * b.y) / (sqrt(pow(a.x, 2.0) + pow(a.y, 2.0)) * sqrt(pow(b.x, 2.0) + pow(b.y, 2.0)));
+}
+
 void main() {
+	// vec2 direction = vec2(
+	// 	scal(gl_FragCoord.x, u_resolution.x/2.0) * 180.0 - 90.0,
+	// 	scal(gl_FragCoord.y, u_resolution.y/2.0) * 360.0
+	// );
 	vec2 direction = vec2(0.0, 0.0);
-	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy, 0.0), direction), 1.0);
+	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy, 10.0), direction), 1.0);
   //gl_FragColor = vec4(vec3(get_light(gl_FragCoord.xyz, light)), 1.0);
 	// gl_FragColor = gl_Color;
 }
