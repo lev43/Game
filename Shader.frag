@@ -5,9 +5,10 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
+uniform vec3 u_coord;
 
 vec3 center = vec3(u_resolution/2.0, 0.0);
-vec3 light = vec3(0.0, 10000000.0, 0.0);
+vec3 light = vec3(sin(u_time/2.0) * 10000000.0, cos(u_time/2.0) * 10000000.0,  0.0);
 
 vec4 schere1 = vec4(sin(u_time*2.0)*200.0+u_resolution.x/2.0, cos(u_time*2.0)*200.0+u_resolution.x/2.0, 10.0, 25.0);
 vec4 schere2 = vec4(
@@ -37,7 +38,7 @@ vec3 getNormal(vec3 p)
 float get_light(vec3 p, vec3 light_pos) {
     vec3 l = normalize(light_pos - p);
     vec3 n = getNormal(p);
-    float dif = clamp(dot(n, l) * 0.5 + 0.5, 0.0, 1.0);
+    float dif = clamp(dot(n, l) * 1.1 + 0.5, 0.0, 1.0);
     return dif;
 }
 
@@ -46,11 +47,11 @@ vec3 raymarching(vec3 ray_origin, vec2 direction) {
 	for(float i = 0.0; i < 100.0; i++) {
 		float len = get_dist(position);
 		if (len < 0.1) return vec3(get_light(position, light));
-    if (len > 100.0) return vec3(0.0);
+		if (len > 1000.0) return vec3(0.0);
 		position += vec3(
-			len * sin(direction.x) * cos(direction.y),
-			len * sin(direction.x) * sin(direction.y),
-			len * cos(direction.x)
+		len * sin(direction.x) * cos(direction.y),
+		len * sin(direction.x) * sin(direction.y),
+		len * cos(direction.x)
 		);
 	}
 	return vec3(0.0);
@@ -65,17 +66,18 @@ float scal(vec2 a, vec2 b) {
 }
 
 void main() {
-	vec3 c = vec3(gl_FragCoord.x - u_resolution.x/2.0, gl_FragCoord.y - u_resolution.y/2.0, -10.0);
+	vec3 c = vec3(gl_FragCoord.xy+u_coord.xy, -10.0+u_coord.z);
 	vec2 direction = vec2(
 		acos(sqrt(pow(c.x, 2.0) + pow(c.y, 2.0)) / c.z) - 90,
 		atan(c.y / c.x)
 	);
+	// direction += vec2(u_time/60*90-90);
 	// vec2 direction = vec2(
 	// 	scal(gl_FragCoord.yz, vec2(u_resolution.y/2.0, -10.0)),
 	// 	scal(gl_FragCoord.xz, vec2(u_resolution.x/2.0, -10.0))
 	// );
-	// vec2 direction = vec2(0.0, 0.0);
-	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy, -10.0), direction), 1.0);
+	// vec2 direction = vec2(1.0, 1.0);
+	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy+u_coord.xy, -10.0+u_coord.z), direction), 1.0);
   //gl_FragColor = vec4(vec3(get_light(gl_FragCoord.xyz, light)), 1.0);
 	// gl_FragColor = gl_Color;
 }
