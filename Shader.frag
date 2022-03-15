@@ -60,12 +60,17 @@ float scal(vec2 a, vec2 b) {
 }
 
 void main() {
+	vec3 c = vec3(gl_FragCoord.xy-u_resolution, 0.5);
+	vec2 direction = vec2(
+		atan(sqrt(pow(c.x, 2.0) + pow(c.y, 2.0)) / c.z),
+		atan(c.y / c.x)
+	);
 	// vec2 direction = vec2(
-	// 	scal(gl_FragCoord.x, u_resolution.x/2.0) * 180.0 - 90.0,
-	// 	scal(gl_FragCoord.y, u_resolution.y/2.0) * 360.0
+	// 	scal(gl_FragCoord.yz, vec2(u_resolution.y/2.0, -10.0)),
+	// 	scal(gl_FragCoord.xz, vec2(u_resolution.x/2.0, -10.0))
 	// );
-	vec2 direction = vec2(0.0, 0.0);
-	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy, 10.0), direction), 1.0);
+	// vec2 direction = vec2(0.0, 0.0);
+	gl_FragColor = vec4(raymarching(vec3(gl_FragCoord.xy, -10.0), direction), 1.0);
   //gl_FragColor = vec4(vec3(get_light(gl_FragCoord.xyz, light)), 1.0);
 	// gl_FragColor = gl_Color;
 }
