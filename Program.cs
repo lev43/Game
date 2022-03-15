@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,6 +38,13 @@ public class Engine
         {
             shader.SetUniform("u_time", time);
         }
+        public void AddCoord(Vec3 c)
+        {
+            coord.X += c.X;
+            coord.Y += c.Y;
+            coord.Z += c.Z;
+            shader.SetUniform("u_coord", new Vec3(coord.X, coord.Y, coord.Z));
+        }
         public void Draw(RenderTarget target, RenderStates states)
         {
             states = new RenderStates(states)
@@ -46,6 +53,7 @@ public class Engine
             };
             target.Draw(sprite, states);
         }
+        private Vec3 coord = new Vec3(0, 0, 0);
         private Shader shader;
         private Sprite sprite;
     }
@@ -66,6 +74,14 @@ public class Engine
             };
             MainWindow.MouseMoved += (sender, e) => {
                 shader.MouseMove(new Vec2(e.X, e.Y));
+            };
+            MainWindow.KeyPressed += (sender, e) => {
+                if(e.Code == Keyboard.Key.W) shader.AddCoord(new Vec3(0, 0, 10));
+                if(e.Code == Keyboard.Key.S) shader.AddCoord(new Vec3(0, 0, -10));
+                if(e.Code == Keyboard.Key.D) shader.AddCoord(new Vec3(10, 0, 0));
+                if(e.Code == Keyboard.Key.A) shader.AddCoord(new Vec3(-10, 0, 0));
+                if(e.Code == Keyboard.Key.E) shader.AddCoord(new Vec3(0, 10, 0));
+                if(e.Code == Keyboard.Key.Q) shader.AddCoord(new Vec3(0, -10, 0));
             };
 
             Clock clock = new Clock();
