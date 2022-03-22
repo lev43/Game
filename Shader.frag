@@ -8,7 +8,7 @@ uniform float u_time;
 uniform vec3 u_coord;
 
 vec3 center = vec3(u_resolution/2.0, 0.0);
-vec3 light = vec3(sin(u_time*2.0)*100.0+u_resolution.x/2.0, cos(u_time*2.0)*100.0+u_resolution.x/2.0,  0.0);
+vec3 light = vec3(sin(u_time/2.0) * 10000000.0, cos(u_time/2.0) * 10000000.0,  0.0);
 
 vec4 sphere1 = vec4(sin(u_time*2.0)*200.0+u_resolution.x/2.0, cos(u_time*2.0)*200.0+u_resolution.x/2.0, 10.0, 25.0);
 vec4 sphere2 = vec4(
