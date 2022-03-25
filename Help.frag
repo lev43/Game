@@ -41,8 +41,8 @@ const float eps = 0.0005;
 // it to. Computers either need to get faster, or I need to become a better coder...  but since the latter's not going to happen, I'm counting on SGI
 // and 3dfx to make it happen. I've been away for a while. They're still the best graphics card makers around, right?
 const int maxIterations = 1280000;
-const float stepScale = 0.5;
-const float stopThreshold = 0.005; // I'm not quite sure why, but thresholds in the order of a pixel seem to work better for me... most u_times.
+const float stepScale = 0.08;
+const float stopThreshold = 0.0005; // I'm not quite sure why, but thresholds in the order of a pixel seem to work better for me... most u_times.
 
 // The sphere equation. Next to the plane equation, arguably the most boring isosuface equation around. Good for learning purposes though. We're
 // looking for points in 3d space where the isosurface equation below is close to zero. The easiest way to see whether the function below works is
@@ -88,8 +88,8 @@ float get_length_to_box( vec3 p, vec3 b )
 // In this case, though, we're not doing that much. Smallish bumps have been added to a sphere, of radius 1, that is placed at position (0.0, 0.0, 2.0).
 // A modern GPU shouldn't have too many problems doing that.
 float scene(in vec3 p) {
-	// return get_length_to_box(p, vec3(0.0, 0.0, 2.0));
-	return sphere(p, vec3(0., 0. , 2.), 1.) + 0.04;//*sinusoidBumps(p);
+	return get_length_to_box(p, vec3(0.0, 0.0, 2.0));
+	// return sphere(p, vec3(0., 0. , 2.), 1.) + 0.04;//*sinusoidBumps(p);
 }
 
 // A clever way to obtain the surface normal without the need to perform difficult, and often expensive, differential calculations, etc.
@@ -228,7 +228,8 @@ void main(void) {
 	vec3 lookAt = vec3(0.,0.,0.);  // This is the point you look towards, or at.
 	vec3 camPos = vec3(0., 0., -0.); // This is the point you look from, or camera you look at the scene through. Whichever way you wish to look at it.
     
-    camPos += vec3(0.0, 0.0, cos(u_time*2.0)*1.2);
+    // camPos += vec3(0.0, 0.0, cos(u_time*2.0)*1.5);
+    camPos += vec3(0.0, d.y, 0.0);
 
 	// The following uses the above and some pretty standard vector math to set up the screen that we're going to project onto. Use the lookAt and camPos
 	// vectors to contruct a forward vector. Use that vector to construct a vector perpendicular to it, namely the "right" vector, then cross product
@@ -248,7 +249,7 @@ void main(void) {
     vec3 ro = camPos;
     // rd - Ray direction. This is our one-unit-long direction ray.
     vec3 rd = normalize(forward + FOV*screenCoords.x*right + FOV*screenCoords.y*up);
-    // rd += vec3(d,0.0);
+    rd += vec3(d.x, 0.0, 0.0);
     // rd += vec3(0.0, 0.0, 0.0);
     rd += vec3(0.0, 0.0, -0.35);
 
